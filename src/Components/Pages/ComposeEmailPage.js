@@ -19,17 +19,18 @@ const ComponseEmailPage = (props) => {
     const data1 = data.replace(/<[^>]+>/g, '')
     const data2 = data1.replace(/&nbsp;/g,'')
     // https://mail-box-324ea-default-rtdb.firebaseio.com/global/sent${statemail}.json
-    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/global/sent${apimail}.json`,{
+    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/global/${apimail}.json`,{
       email:email,
       subject:subject,
       message:data2
     })
 
-    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/sent${apimail}.json`,{
+    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/${apimail}.json`,{
       email:email,
       subject:subject,
       message:data2
     })
+    props.hide(false)
   };
 
   const changeHandler = (value) => {
