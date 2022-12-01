@@ -41,6 +41,7 @@ const LoginPage = () => {
       );
       dispatch(Auth.login(res.data.idToken));
       console.log(res);
+      dispatch(Auth.initialMail(email))
       setReq(false);
       navigate("/welcome");
     } catch (error) {
