@@ -15,7 +15,20 @@ function App() {
   useEffect(() => {
     dispatch(fun())
     dispatch(fun2())
+    repeatFun();
   }, [])
+
+ const repeatFun = () => {
+  dispatch(fun())
+  dispatch(fun2())
+  setTimeout(() => {
+    repeatFun()
+  }, 2000) 
+}
+
+
+
+
 
   useEffect(() => {
    if(localStorage.getItem('email') !== null)
