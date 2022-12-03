@@ -1,7 +1,8 @@
 import { Navbar,Container,Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { Auth } from "../../Store/AuthReducer";
+import { Auth } from "../../Store/AuthSlice";
 import { useNavigate } from "react-router-dom";
+import { data } from "../../Store/DataSlice";
 
 
 const NavBar = () => {
@@ -9,6 +10,7 @@ const NavBar = () => {
   const dispatch = useDispatch()
   const logoutHandler = () => {
      dispatch(Auth.logout())
+     dispatch(data.logout1())
      navigate('/login')
   };
     return(

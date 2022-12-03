@@ -11,7 +11,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Auth } from "../../Store/AuthReducer";
+import { Auth } from "../../Store/AuthSlice";
+import { fun } from "../../Store/DataSlice";
 
 const SignUpPage = () => {
   const [req, setReq] = useState(false);
@@ -44,10 +45,11 @@ const SignUpPage = () => {
           password: password,
         }
       );
-      console.log(res);
       dispatch(Auth.login(res.data.idToken));
+      localStorage.setItem('normEmail', email)
       dispatch(Auth.initialMail(email))
       setReq(false);
+      dispatch(fun())
       navigate("/welcome");
     } catch (error) {
       setReq(false);

@@ -3,33 +3,47 @@ import SunEditor from "suneditor-react";
 import { useRef, useState } from "react";
 import "suneditor/dist/css/suneditor.min.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { fun, fun2 } from "../../Store/DataSlice";
 
 const ComponseEmailPage = (props) => {
-  // const statemail = useSelector(state => state.auth.email)  
-  const statemail = localStorage.getItem('email')
-  const apimail = statemail.replace('@','').replace('.','')
-  const emailRef = useRef();
-  const subjectRef = useRef();
+  const dispatch = useDispatch()
+  const apimail = useSelector(state => state.auth.email)  
+  const normEmail = localStorage.getItem('normEmail')
+  const emailRef = useRef('');
+  const subjectRef = useRef('');
   const [data, setData] = useState('');
+ 
 
   const submitHandler = async(event) => {
     event.preventDefault();
     const email = emailRef.current.value;
     const subject = subjectRef.current.value;
+    if(email.includes('@') !== true || email.includes('.com') !== true)
+    {
+      alert('Oops, guess something is missing in gmail, please check.')
+      return
+    }
     const data1 = data.replace(/<[^>]+>/g, '')
     const data2 = data1.replace(/&nbsp;/g,'')
+    const emailRec = email.replace('@','').replace('.','')
     // https://mail-box-324ea-default-rtdb.firebaseio.com/global/sent${statemail}.json
-    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/global/${apimail}.json`,{
+    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/global${apimail}.json`,{
       email:email,
       subject:subject,
-      message:data2
+      message:data2,
+      status:false
     })
 
-    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/${apimail}.json`,{
-      email:email,
+    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/${emailRec}.json`,{
+      email:normEmail,
       subject:subject,
-      message:data2
+      message:data2,
+      status:false
     })
+    dispatch(fun())
+    dispatch(fun2())
     props.hide(false)
   };
 

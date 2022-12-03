@@ -10,22 +10,26 @@ const AuthSlice = createSlice({
         state.isAuth=true;
         state.token = action.payload; 
         localStorage.setItem('token',action.payload)
-        console.log(state.token)
        },
        initialMail(state,action){
-        state.email=action.payload;
-        localStorage.setItem('email',action.payload)
-        console.log(state.email)
+       const fakeMail=action.payload;
+        const apimail = fakeMail.replace('@','').replace('.','')
+        state.email=apimail
+        localStorage.setItem('email',apimail)   
        },
         logout(state){
             state.isAuth=false;
             localStorage.removeItem('email')
             localStorage.removeItem('token')
+            localStorage.removeItem('normEmail')
             state.token=''
             state.email=''
         }
     }
 })
+
+
+
 
 export const Auth = AuthSlice.actions;
 

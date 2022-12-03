@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { TableBody } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { fun2 } from "../../Store/DataSlice";
-const SentBox = () => {
+import { fun } from "../../Store/DataSlice";
+const RecievedMail = () => {
   const dispatch = useDispatch()
-  let sentMails = useSelector((state) => state.data.sentData);
+  let inboxMails = useSelector((state) => state.data.inboxData);
   const [showModal, setShowModal] = useState(false);
   const [mailData, setMailData] = useState({})  
   const closeHandler = () => {setShowModal(false)}
@@ -18,7 +18,7 @@ const SentBox = () => {
     setShowModal(true)
     if (mail.status === false) {
       const res = await axios.put(
-        `https://mail-box-324ea-default-rtdb.firebaseio.com/global${email}/${mail.key}.json`,
+        `https://mail-box-324ea-default-rtdb.firebaseio.com/${email}/${mail.key}.json`,
         {
           email: mail.email,
           message: mail.message,
@@ -26,7 +26,7 @@ const SentBox = () => {
           subject: mail.subject,
         }
       );
-      dispatch(fun2())
+      dispatch(fun())
       console.log(res);
     } else {
       setMailData(mail)
@@ -35,8 +35,8 @@ const SentBox = () => {
   };
 
   const deleteHandler = async(mail) => {
-     await axios.delete(`https://mail-box-324ea-default-rtdb.firebaseio.com/global${email}/${mail.key}.json`)
-     dispatch(fun2())
+     await axios.delete(`https://mail-box-324ea-default-rtdb.firebaseio.com/${email}/${mail.key}.json`)
+     dispatch(fun())
   };
 
 
@@ -56,7 +56,7 @@ const SentBox = () => {
   return (
     <>
     <Table  hover>
-      {sentMails.map((mail) => (
+      {inboxMails.map((mail) => (
         <TableBody key={Math.random()} style={{ width: "80.3vw", display:'flex'}}>
             <tr onClick={tableHandler.bind(this, mail)} key={Math.random()}>
             <td >{mail.status ? "⚪" : "🔵"}</td>
@@ -73,4 +73,4 @@ const SentBox = () => {
   );
 };
 
-export default SentBox;
+export default RecievedMail;
