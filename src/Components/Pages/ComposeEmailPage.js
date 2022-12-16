@@ -5,7 +5,7 @@ import "suneditor/dist/css/suneditor.min.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { fun, fun2 } from "../../Store/DataSlice";
+import { fetchReceiveMailHandler, fetchSentMailHandler } from "../../Store/DataActions";
 
 const ComponseEmailPage = (props) => {
   const dispatch = useDispatch()
@@ -28,22 +28,21 @@ const ComponseEmailPage = (props) => {
     const data1 = data.replace(/<[^>]+>/g, '')
     const data2 = data1.replace(/&nbsp;/g,'')
     const emailRec = email.replace('@','').replace('.','')
-    // https://mail-box-324ea-default-rtdb.firebaseio.com/global/sent${statemail}.json
-    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/global${apimail}.json`,{
+    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/sentmails=${apimail}.json`,{
       email:email,
       subject:subject,
       message:data2,
       status:false
     })
 
-    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/${emailRec}.json`,{
+    await axios.post(`https://mail-box-324ea-default-rtdb.firebaseio.com/recievemails=${emailRec}.json`,{
       email:normEmail,
       subject:subject,
       message:data2,
       status:false
     })
-    dispatch(fun())
-    dispatch(fun2())
+    dispatch(fetchReceiveMailHandler())
+    dispatch(fetchSentMailHandler())
     props.hide(false)
   };
 
@@ -77,7 +76,7 @@ const ComponseEmailPage = (props) => {
             />
           </InputGroup>
           <Modal.Footer>
-            <SunEditor value={(e) => setData(e.target.value)} onChange={changeHandler} />
+            <SunEditor  onChange={changeHandler} />
             <Button type='submit' style={{ width: "10rem" }} className="mt-1">
               Send
             </Button>

@@ -12,7 +12,7 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Auth } from "../../Store/AuthSlice";
-import { fun } from "../../Store/DataSlice";
+import { fetchReceiveMailHandler } from "../../Store/DataActions";
 
 const SignUpPage = () => {
   const [req, setReq] = useState(false);
@@ -49,7 +49,7 @@ const SignUpPage = () => {
       localStorage.setItem('normEmail', email)
       dispatch(Auth.initialMail(email))
       setReq(false);
-      dispatch(fun())
+      dispatch(fetchReceiveMailHandler())
       navigate("/welcome");
     } catch (error) {
       setReq(false);

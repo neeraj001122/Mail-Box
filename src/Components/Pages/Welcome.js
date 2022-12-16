@@ -11,7 +11,6 @@ const Welcome = () => {
   const [showRec, setShowRec] = useState(false)
   const [showSent, setShowSent] = useState(false)
   const [showCompose, setShowCompose] = useState(false);
-  const sentUnreadMessages = useSelector(state => state.data.unreadMessages2)
   const unreadMessages = useSelector(state => state.data.unreadMessages)
   const showHandler = () => {
     setShowCompose(true);
@@ -43,8 +42,8 @@ const Welcome = () => {
                   {" "}
                   {<Button onClick={showHandler}>Compose mail</Button>}{" "}
                 </MenuItem>
-                <SubMenu label={`Messages  🆕 ${sentUnreadMessages + unreadMessages}`}>
-                  <MenuItem onClick={showSentHandler}> SentBox 🆕 {sentUnreadMessages}</MenuItem>
+                <SubMenu label={`Messages  🆕 ${unreadMessages}`}>
+                  <MenuItem onClick={showSentHandler}> SentBox </MenuItem>
                   <MenuItem onClick={showRecHandler}> Inbox 🆕 {unreadMessages}</MenuItem>
                 </SubMenu>
               </Menu> 

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Auth } from "../../Store/AuthSlice";
-import { fun } from "../../Store/DataSlice";
+import { fetchReceiveMailHandler, fetchSentMailHandler } from "../../Store/DataActions";
 const LoginPage = () => {
   const [req, setReq] = useState(false);
   const dispatch = useDispatch();
@@ -44,7 +44,8 @@ const LoginPage = () => {
       localStorage.setItem('normEmail', email)
       dispatch(Auth.initialMail(email))
       setReq(false);
-      dispatch(fun())
+      dispatch(fetchReceiveMailHandler())
+      dispatch(fetchSentMailHandler())
       navigate("/welcome");
     } catch (error) {
       setReq(false);

@@ -1,42 +1,29 @@
-import axios from "axios";
-import {  Modal, Table, Button, Row } from "react-bootstrap";
+import {  Modal, Table, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { TableBody } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { fun2 } from "../../Store/DataSlice";
+import { deleteSentMailHandler, sentMessageSeen } from "../../Store/DataActions";
 const SentBox = () => {
   const dispatch = useDispatch()
   let sentMails = useSelector((state) => state.data.sentData);
   const [showModal, setShowModal] = useState(false);
   const [mailData, setMailData] = useState({})  
   const closeHandler = () => {setShowModal(false)}
-  const email = localStorage.getItem("email");
 
   const tableHandler = async (mail) => {
     setMailData(mail)
     setShowModal(true)
     if (mail.status === false) {
-      const res = await axios.put(
-        `https://mail-box-324ea-default-rtdb.firebaseio.com/global${email}/${mail.key}.json`,
-        {
-          email: mail.email,
-          message: mail.message,
-          status: true,
-          subject: mail.subject,
-        }
-      );
-      dispatch(fun2())
-      console.log(res);
+      dispatch(sentMessageSeen(mail))
     } else {
       setMailData(mail)
       setShowModal(true)
     }
   };
 
-  const deleteHandler = async(mail) => {
-     await axios.delete(`https://mail-box-324ea-default-rtdb.firebaseio.com/global${email}/${mail.key}.json`)
-     dispatch(fun2())
+  const deleteHandler = (mail) => {
+     dispatch(deleteSentMailHandler(mail.key))
   };
 
 

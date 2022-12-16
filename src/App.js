@@ -6,21 +6,21 @@ import Welcome from "./Components/Pages/Welcome"
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Auth } from "./Store/AuthSlice";
-import { fun, fun2 } from "./Store/DataSlice";
+import { fetchReceiveMailHandler, fetchSentMailHandler } from "./Store/DataActions";
 
 function App() {
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fun())
-    dispatch(fun2())
+    dispatch(fetchSentMailHandler())
+    dispatch(fetchReceiveMailHandler())
     repeatFun();
-  }, [])
+  }, [dispatch])
 
  const repeatFun = () => {
-  dispatch(fun())
-  dispatch(fun2())
+  dispatch(fetchSentMailHandler())
+  dispatch(fetchReceiveMailHandler())
   setTimeout(() => {
     repeatFun()
   }, 2000) 
