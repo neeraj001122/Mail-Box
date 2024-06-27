@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { TableBody } from "@mui/material";
 import { deleteReceivedMailHandler, receivedMessageSeen } from "../../Store/DataActions";
 
-// Extract Modal Component and Memoize it
+
 const ModalData = React.memo(({ showModal, mailData, closeHandler }) => {
   return (
     <Modal show={showModal} onHide={closeHandler}>
@@ -42,7 +42,7 @@ const RecievedMail = () => {
 
   const deleteHandler = useCallback(
     (mail, event) => {
-      event.stopPropagation(); // Prevent triggering the row click event
+      event.stopPropagation(); 
       dispatch(deleteReceivedMailHandler(mail.key));
     },
     [dispatch]
